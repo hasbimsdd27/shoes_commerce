@@ -1,8 +1,25 @@
 import 'package:app/theme.dart';
+import 'package:app/widgets/product_card.dart';
+import 'package:app/widgets/product_tile.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
+  String greetings() {
+    var dt = DateTime.now();
+    var currentHour = dt.hour;
+
+    if (currentHour > 4 && currentHour < 12) {
+      return "Selamat Pagi";
+    } else if (currentHour >= 12 && currentHour <= 15) {
+      return "Selamat Siang";
+    } else if (currentHour > 15 && currentHour <= 18) {
+      return "Selamat Sore";
+    }
+
+    return "Selamat Malam";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +44,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Selamat Siang",
+                    greetings(),
                     style: subtitleTextStyle.copyWith(
                       fontSize: 16,
                     ),
@@ -172,10 +189,79 @@ class HomeScreen extends StatelessWidget {
       );
     }
 
+    Widget popularProductsTitle() {
+      return Container(
+        margin: EdgeInsets.only(
+            top: defaultMargin, left: defaultMargin, right: defaultMargin),
+        child: Text(
+          "Popular Products",
+          style: primaryTextStyle.copyWith(
+            fontSize: 22,
+            fontWeight: semiBold,
+          ),
+        ),
+      );
+    }
+
+    Widget popularProducts() {
+      return Container(
+        margin: const EdgeInsets.only(top: 14),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              SizedBox(
+                width: defaultMargin,
+              ),
+              const Row(
+                children: [
+                  ProductCard(),
+                  ProductCard(),
+                  ProductCard(),
+                ],
+              )
+            ],
+          ),
+        ),
+      );
+    }
+
+    Widget newArrivalsTitle() {
+      return Container(
+        margin: EdgeInsets.only(
+            top: defaultMargin, left: defaultMargin, right: defaultMargin),
+        child: Text(
+          "New Arrivals",
+          style: primaryTextStyle.copyWith(
+            fontSize: 22,
+            fontWeight: semiBold,
+          ),
+        ),
+      );
+    }
+
+    Widget newArrivals() {
+      return Container(
+        margin: const EdgeInsets.only(top: 14),
+        child: Column(
+          children: [
+            ProductTile(),
+            ProductTile(),
+            ProductTile(),
+            ProductTile(),
+          ],
+        ),
+      );
+    }
+
     return ListView(
       children: [
         header(),
         categories(),
+        popularProductsTitle(),
+        popularProducts(),
+        newArrivalsTitle(),
+        newArrivals(),
       ],
     );
   }
